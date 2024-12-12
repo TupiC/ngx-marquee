@@ -1,5 +1,13 @@
 # ngx-marquee
 
+<a href="https://ngxui.com" target="_blank" style="display: flex;gap: .5rem;align-items: center;cursor: pointer; padding: 0 0 0 0; height: fit-content;">
+  <img src="https://ngxui.com/assets/img/ngxui-logo.png" style="width: 64px;height: 64px;">
+  <p style="font-weight: bold; padding: 0; margin: 0; font-size: 4rem">NGXUI</p>
+</a>
+
+This Library is part of the NGXUI ecosystem. <br>
+View all available components at https://ngxui.com
+
 `@omnedia/ngx-marquee` is an Angular library that provides a customizable marquee component with animation controls for scrolling content horizontally or vertically. The component offers flexible configuration options such as animation speed, direction (horizontal or vertical), reverse mode, gap size, and an option to pause the marquee on hover.
 
 ## Features
@@ -22,21 +30,23 @@ npm install @omnedia/ngx-marquee
 Import the `NgxMarqueeComponent` in your Angular module or component:
 
 ```typescript
-import { NgxMarqueeComponent } from '@omnedia/ngx-marquee';
+import {NgxMarqueeComponent} from '@omnedia/ngx-marquee';
 
 @Component({
   ...
-  imports: [
-    ...
-    NgxMarqueeComponent,
-  ],
+    imports:
+[
   ...
+    NgxMarqueeComponent,
+],
+...
 })
 ```
 
 Use the component in your template:
 
 ```html
+
 <om-marquee
   [reverse]="true"
   [animationDuration]="'10s'"
@@ -64,6 +74,7 @@ How It Works
 ## API
 
 ```html
+
 <om-marquee
   [reverse]="reverse"
   [animationDuration]="animationDuration"
@@ -86,6 +97,7 @@ How It Works
 ## Example
 
 ```html
+
 <om-marquee [reverse]="false" [animationDuration]="'15s'" [marqueeGap]="'1rem'" styleClass="marquee-container">
   <div #OmMarqueeContent class="marquee-item">Item A</div>
   <div #OmMarqueeContent class="marquee-item">Item B</div>
@@ -96,6 +108,7 @@ How It Works
 This will create a marquee that scrolls content horizontally, with an animation duration of 15 seconds and a gap of 1 rem between each item.
 
 ## Styling
+
 `.om-marquee`
 
 - The main container for the marquee effect. You can apply global or custom styles using the styleClass input. The marquee content will automatically scroll in the specified direction based on the component's configuration.
@@ -105,6 +118,7 @@ This will create a marquee that scrolls content horizontally, with an animation 
 In this example, the marquee container is customized with a background color and padding, while the items inside the marquee retain their original styles:
 
 ```html
+
 <om-marquee styleClass="marquee-custom-style">
   <div class="item-1" #OmMarqueeContent>News Update 1</div>
   <div class="item-2" #OmMarqueeContent>News Update 2</div>
