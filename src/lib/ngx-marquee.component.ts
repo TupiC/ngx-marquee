@@ -1,6 +1,8 @@
 import {CommonModule, isPlatformBrowser} from "@angular/common";
 import {
+  AfterContentChecked,
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ContentChildren,
   ElementRef,
@@ -12,7 +14,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
-import {Subject, takeUntil} from "rxjs";
+import {Subject} from "rxjs";
 
 @Component({
   selector: "om-marquee",
@@ -21,12 +23,10 @@ import {Subject, takeUntil} from "rxjs";
   templateUrl: "./ngx-marquee.component.html",
   styleUrl: "./ngx-marquee.component.scss",
 })
-export class NgxMarqueeComponent implements AfterViewInit, OnDestroy {
+export class NgxMarqueeComponent implements AfterViewInit, AfterContentChecked, OnDestroy {
   @ViewChild("OmMarquee") marqueeRef!: ElementRef<HTMLElement>;
 
-  @ContentChildren("OmMarqueeContent") elementRefs?: QueryList<
-    ElementRef<HTMLElement>
-  >;
+  @ContentChildren("OmMarqueeContent") elementRefs?: QueryList<ElementRef<HTMLElement>>;
 
   @Input("styleClass")
   styleClass?: string;
@@ -71,18 +71,17 @@ export class NgxMarqueeComponent implements AfterViewInit, OnDestroy {
   isInView = false;
   private intersectionObserver?: IntersectionObserver;
 
+  private contentSnapshot: string[] = [];
+
   constructor(
     private readonly sanitizer: DomSanitizer,
+    private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: object
   ) {
   }
 
   ngAfterViewInit(): void {
     this.getMarqueeContent();
-
-    this.elementRefs?.changes.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.getMarqueeContent();
-    });
 
     if (isPlatformBrowser(this.platformId)) {
       this.intersectionObserver = new IntersectionObserver(([entry]) => {
@@ -95,6 +94,24 @@ export class NgxMarqueeComponent implements AfterViewInit, OnDestroy {
         }
       });
       this.intersectionObserver.observe(this.marqueeRef.nativeElement);
+    }
+  }
+
+  ngAfterContentChecked() {
+    if (!this.elementRefs) {
+      return;
+    }
+
+    const currentContentSnapshot = this.elementRefs.map(
+      (ref) => ref.nativeElement.innerHTML
+    );
+
+    if (
+      JSON.stringify(this.contentSnapshot) !==
+      JSON.stringify(currentContentSnapshot)
+    ) {
+      this.contentSnapshot = currentContentSnapshot;
+      this.getMarqueeContent();
     }
   }
 
@@ -119,5 +136,7 @@ export class NgxMarqueeComponent implements AfterViewInit, OnDestroy {
         ref.nativeElement.outerHTML
       );
     });
+
+    this.cdr.detectChanges();
   }
 }
