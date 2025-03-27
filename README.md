@@ -92,6 +92,7 @@ How It Works
 - `pauseOnHover` (optional): A boolean to pause the scroll animation when the marquee is hovered. Defaults to true.
 - `vertical` (optional): A boolean to switch the marquee to vertical scrolling mode. Defaults to false.
 - `styleClass` (optional): A custom CSS class to apply to the .om-marquee container for additional styling.
+- `scrollable` (optional): A boolean to enable or disable the marquee scroll. Defaults to false.
 
 ## Example
 
