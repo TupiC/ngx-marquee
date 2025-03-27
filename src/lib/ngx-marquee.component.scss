@@ -29,6 +29,10 @@
     }
   }
 
+  .overflow-scroll {
+    overflow: auto;
+  }
+
   &.direction-row {
     .om-marquee-content {
       flex-direction: row;

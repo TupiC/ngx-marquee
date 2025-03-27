@@ -64,6 +64,9 @@ export class NgxMarqueeComponent implements AfterViewInit, AfterContentChecked, 
   @Input("vertical")
   vertical = false;
 
+  @Input("scrollable")
+  scrollable = false;
+
   style: any = {};
 
   marqueeElements: SafeHtml[] = [];
